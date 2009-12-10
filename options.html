@@ -1,0 +1,64 @@
+<html>
+<head>
+	<title>Google Tasks Options</title>
+	<style>
+		body { font-family:Arial;font-size:12px;background:#000;color:#ccc; }
+		#options { width:500px;padding:20px;margin:auto;background:#222;-webkit-border-radius:5px;border:2px solid #444; }
+		label { margin:0 10px 0 0; }
+		input[type="text"] { width:200px;background:#111;border:2px solid #333;-webkit-border-radius:5px;color:#ccc;padding:5px 10px 5px 10px; }
+		h1 { text-align:center;background:#277cc1;-webkit-border-radius:5px;padding:3px;color:#fff;border:solid #348bca;border-width:2px 2px 0 0; }
+		a { color:#fe7f00;text-decoration:none; }
+		a:hover { text-decoration:underline; }
+		.copy { text-align:center;margin:20px 0 0 0; }
+		td { font-size:12px; }
+	</style>
+</head>
+<body>
+	<div id="options">
+		<h1>Google tasks options</h1>
+		<p><label for="gtasks_apps">Your Google apps url (e.g. google.com)</label><input type="text" id="gtasks_apps" /></p>
+		<p>
+			<table>
+				<tr>
+					<td><input type="radio" name="browseraction" id="tasks_icon_default" value="icon" /></td>
+					<td><img src="icon.png" /></td>
+					<td>Default</td>
+				</tr>
+				<tr>
+					<td><input type="radio" name="browseraction" id="tasks_icon_chromifed" value="icon_chromifed" /></td>
+					<td><img src="icon_chromifed.png" /></td>
+					<td>Chromifed</td>
+				</tr>
+			</table>
+		</p>
+		<p class="copy"><a href="http://www.chromeextensions.org/social-communications/google-tasks-2/">Support</a></p>
+	</div>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript">	
+		if (!localStorage['gtasks_apps']) {
+			localStorage['gtasks_apps'] = '';
+		}
+		if (!localStorage['gtasks_apps_enabled']) {
+			localStorage['gtasks_apps_enabled'] = false;
+		}
+		
+		$('input[type="radio"]').val([localStorage['gtasks_icon']]);
+		$('#tasks_icon_default').click(function () {
+			localStorage['gtasks_icon'] = 'icon';
+			chrome.browserAction.setIcon({path:localStorage['gtasks_icon']+'.png'});
+		});
+		$('#tasks_icon_chromifed').click(function () {
+			localStorage['gtasks_icon'] = 'icon_chromifed';
+			chrome.browserAction.setIcon({path:localStorage['gtasks_icon']+'.png'});
+		});
+		
+		$('#gtasks_apps').val(localStorage['gtasks_apps']).keyup(function () {
+			localStorage['gtasks_apps'] = $('#gtasks_apps').val();
+		});
+		$('a').click(function () {
+			window.open(this.href);
+			return false;
+		});
+	</script>
+</body>
+</html>

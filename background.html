@@ -1,0 +1,62 @@
+<html>
+<head>
+	<script type="text/javascript">
+		(function init() {
+			var version='1.4.0';
+			if (!localStorage['gtasks_apps']) {
+				localStorage['gtasks_apps'] = '';
+			}
+			if (!localStorage['gtasks_apps_enabled']) {
+				localStorage['gtasks_apps_enabled'] = false;
+			}
+			if (!localStorage['gtasks_where']) {
+				localStorage['gtasks_where'] = 'popup';
+			}
+			if (!localStorage['gtasks_icon']) {
+				localStorage['gtasks_icon'] = 'icon';
+			}
+			if (!localStorage['gtasks_version'] || localStorage['gtasks_version']!=version) {
+				localStorage['gtasks_version'] = version;
+				chrome.tabs.create({
+					url:'options.html'
+				});
+			}
+			chrome.browserAction.setIcon({path:localStorage['gtasks_icon']+'.png'});
+			
+		})();
+
+		chrome.extension.onConnect.addListener(function(p) {
+			if (p.name == 'updatebg') {
+				p.onMessage.addListener(function (m) {
+					if (m.showbox == undefined) {
+						m.showbox = (localStorage['gtasks_where'] == 'inside');
+					}
+					if (m.showbox == false) {
+						localStorage['gtasks_where'] = 'popup';
+					}
+					if (m.updatecs) {
+						chrome.windows.getAll({
+							populate:true
+						},function(w){
+							for(var i in w) {
+								chrome.tabs.getAllInWindow(w[i].id, function(t) {
+									for(var j in t) {
+										var p = chrome.tabs.connect(t[j].id, {
+											name:'updatecs'
+										});
+										p.postMessage({
+											showbox:m.showbox
+										});
+									}
+								});
+							}
+						});
+					}
+				});
+			}
+		});
+	</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,24 @@
+#gtasks_box {
+-webkit-border-radius:5px;
+background:#fff;
+width:300px;
+border:1px solid #ccc;
+position:fixed;
+z-index:999;
+height:500px;
+bottom:0;
+right:0;
+}
+
+#gtasks_box_drag {
+height:20px;
+background:#ccc url(popintop.png);
+cursor:move;
+-webkit-border-radius-topleft:5px;
+-webkit-border-radius-topright:5px;
+}
+
+#gtasks_box_iframe {
+border:0;
+height:480px;
+}
