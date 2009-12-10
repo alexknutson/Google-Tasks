@@ -45,11 +45,11 @@
 		$('input[type="radio"]').val([localStorage['gtasks_icon']]);
 		$('#tasks_icon_default').click(function () {
 			localStorage['gtasks_icon'] = 'icon';
-			chrome.browserAction.setIcon({path:localStorage['gtasks_icon']+'.png'});
+			chrome.browserAction.setIcon({path:'image/'+localStorage['gtasks_icon']+'.png'});
 		});
 		$('#tasks_icon_chromifed').click(function () {
 			localStorage['gtasks_icon'] = 'icon_chromifed';
-			chrome.browserAction.setIcon({path:localStorage['gtasks_icon']+'.png'});
+			chrome.browserAction.setIcon({path:'image/'+localStorage['gtasks_icon']+'.png'});
 		});
 		
 		$('#gtasks_apps').val(localStorage['gtasks_apps']).keyup(function () {
