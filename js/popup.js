@@ -1,10 +1,10 @@
 get_url = function () {
 	if (localStorage['gtasks_apps_enabled'] == 'false') {
-		return 'https://mail.google.com/tasks/ig';
+		return 'https://mail.google.com/tasks/android';
 	} else if (localStorage['gtasks_apps_enabled'] == 'true' && localStorage['gtasks_apps']=='') {
-		return 'https://mail.google.com/tasks/ig';
+		return 'https://mail.google.com/tasks/android';
 	} else {
-		return 'https://mail.google.com/tasks/a/'+localStorage['gtasks_apps']+'/ig'
+		return 'https://mail.google.com/tasks/a/'+localStorage['gtasks_apps']+'/android'
 	}
 };
 get_url_canvas = function () {
@@ -16,14 +16,87 @@ get_url_canvas = function () {
 		return 'https://mail.google.com/tasks/a/'+localStorage['gtasks_apps']+'/canvas'
 	}
 };
+get_url_ig = function () {
+    if (localStorage['gtasks_apps_enabled'] == 'false') {
+        return 'https://mail.google.com/tasks/ig';
+    } else if (localStorage['gtasks_apps_enabled'] == 'true' && localStorage['gtasks_apps']=='') {
+        return 'https://mail.google.com/tasks/ig';
+    } else {
+        return 'https://mail.google.com/tasks/a/'+localStorage['gtasks_apps']+'/ig'
+    }
+};
+
 toggle_apps = function () {
 	if (localStorage['gtasks_apps_enabled'] == 'true') {
 		localStorage['gtasks_apps_enabled'] = 'false';
 	} else {
 		localStorage['gtasks_apps_enabled'] = 'true';
 	}
-	$('#tasksiframe').remove();
-	$('#taskscontainer').append('<iframe id="tasksiframe" src="'+get_url()+'"></iframe>');
+    $('#tasksiframe').attr('src',get_url());
+    loadTasks();
+};
+jsdate2string = function(odate) {
+    var sout = odate.getFullYear()+'';
+    var month = odate.getMonth()+1;
+    if (month.toString().length==1) {
+        sout += '0' + month;
+    } else {
+        sout += ''+month;
+    }
+    if (odate.getDate().toString().length==1) {
+        sout += '0' + odate.getDate().toString();
+    } else {
+        sout += odate.getDate().toString();
+    }
+    return sout;
+};
+loadTasks = function() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", get_url_ig(), true);
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            jsontxt = xhr.responseText;
+            jsontxt = jsontxt.substring(jsontxt.indexOf('_init(){_setup(')+15);
+            jsontxt = jsontxt.substring(0,jsontxt.lastIndexOf(')}'));
+            ndelayed = 0;
+            nfortoday = 0;
+            var ntoday = parseInt(jsdate2string(new Date()));
+            atasks = new Array();
+            var myjson = JSON.parse(jsontxt);
+            var mytasks = myjson.t.tasks;  
+            for(var i in mytasks) {
+                var otask = new Object();
+                otask.sname = mytasks[i].name;
+                otask.surl = '';
+                if(typeof(mytasks[i].resource_link)=="object") {
+                    otask.surl = mytasks[i].resource_link[0].uri;
+                }
+                if(typeof(mytasks[i].task_date)=="string"){
+                    otask.sdate = mytasks[i].task_date;
+                    var ntaskdate = parseInt(''+otask.sdate);
+                    if(ntaskdate<ntoday) ndelayed++;
+                    if(ntaskdate==ntoday) nfortoday++;
+                }
+                    
+                atasks[atasks.length] = otask;
+            }
+            ntasks = atasks.length;
+         
+            if(ndelayed>0) {
+                chrome.browserAction.setBadgeBackgroundColor({color:[255, 0, 0, 255]});
+                chrome.browserAction.setBadgeText({text:''+ndelayed});
+            } else if(nfortoday>0) {
+                chrome.browserAction.setBadgeBackgroundColor({color:[255, 128, 0, 255]});
+                chrome.browserAction.setBadgeText({text:''+nfortoday});
+            } else {
+                chrome.browserAction.setBadgeBackgroundColor({color:[130, 180, 230, 255]});
+                chrome.browserAction.setBadgeText({text:''+ntasks});
+            }
+        }
+    }
+    
+    window.setTimeout('loadTasks();',60*1000);
 };
 
 (function init() {
@@ -44,7 +117,7 @@ toggle_apps = function () {
 		localStorage['gtasks_version'] = version;
 	}
 	$('#tasksiframe').remove();
-	$('#taskscontainer').append('<iframe id="tasksiframe" src="'+get_url()+'"></iframe>');
+	$('#taskscontainer').append('<iframe id="tasksiframe" src="'+get_url()+'" width="475" height="600" marginwidth="0" marginheight="0" frameborder="no" scrolling="no"></iframe>');
 	var p = chrome.extension.connect({
 		name: "updatebg"
 	});
@@ -52,11 +125,14 @@ toggle_apps = function () {
 		updatecs:true,
 		showbox:false,
 	});
+    
+    loadTasks();
 })();
+
 
 $('#tasksiframe').attr('src',get_url());
 $('#taskspopout').click(function() {
-	window.open(get_url(),'Google Tasks','width=320');
+	window.open(get_url(),'Google Tasks','width=475');
 });
 $('#taskspopin').click(function() {
 	localStorage['gtasks_where'] = 'inside';
