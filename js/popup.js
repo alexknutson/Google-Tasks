@@ -100,7 +100,7 @@ loadTasks = function() {
 };
 
 (function init() {
-	var version='1.4.0';
+	var version='1.5.0';
 	if (!localStorage['gtasks_apps']) {
 		localStorage['gtasks_apps'] = '';
 	}

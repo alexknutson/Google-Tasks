@@ -12,21 +12,21 @@ debug = {
 	_this : this
 }
 
-chrome.extension.onConnect.addListener(function(p) {
-	if (p.name == 'updatecs') {
-		p.onMessage.addListener(function (m) {
-			if (m.showbox) {
-				$('#gtasks_box').show();
-			} else {
-				$('#gtasks_box').hide();
-			}
-		});
-	}
-});
+// chrome.extension.onConnect.addListener(function(p) {
+	// if (p.name == 'updatecs') {
+		// p.onMessage.addListener(function (m) {
+			// if (m.showbox) {
+				// $('#gtasks_box').show();
+			// } else {
+				// $('#gtasks_box').hide();
+			// }
+		// });
+	// }
+// });
 
 (function init(){
 	if(window.parent){
-		var version='1.4.0';
+		var version='1.5.0';
 		if (!localStorage['gtasks_apps']) {
 			localStorage['gtasks_apps'] = '';
 		}
@@ -43,17 +43,17 @@ chrome.extension.onConnect.addListener(function(p) {
 			});
 		}
 		
-		$('#gtasks_box').remove();
-		$('body').append('<div id="gtasks_box" style="display:none;"><div id="gtasks_box_drag"></div><iframe id="gtasks_box_iframe"></iframe></div>');
-		$('#gtasks_box').draggable({
-			handle:'#gtasks_box_drag',
-		});
-		$('#gtasks_box_iframe').attr('src',get_url());
-		var p = chrome.extension.connect({
-			name: "updatebg"
-		});
-		p.postMessage({
-			updatecs:true
-		});
+		// $('#gtasks_box').remove();
+		// $('body').append('<div id="gtasks_box" style="display:none;"><div id="gtasks_box_drag"></div><iframe id="gtasks_box_iframe"></iframe></div>');
+		// $('#gtasks_box').draggable({
+			// handle:'#gtasks_box_drag',
+		// });
+		// $('#gtasks_box_iframe').attr('src',get_url());
+		// var p = chrome.extension.connect({
+			// name: "updatebg"
+		// });
+		// p.postMessage({
+			// updatecs:true
+		// });
 	}
 })();

@@ -16,10 +16,9 @@
       "32": "image/icon32.png",
       "48": "image/icon48.png"
    },
-   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqL0dkBKT/rj9Whn0X1EGG7/GmOEP1jMlsvDhVdkOdHkBMIEQ0Ts75wjfyz4r30VS9S8Nwmsluv3/+vsikskg10llZ8WqKjhlE+TQphAN1QN2OAiRmpWHdIxsx+78YOPo4TJvF80UmgEHd/QG5JyYn+myxnQgTieiRrOkMM0TlYwIDAQAB",
-   "name": "Google Tasks",
+   "name": "Unofficial Google Tasks",
    "options_page": "options.html",
    "permissions": [ "tabs", "http://www.google.com/", "http://mail.google.com/*", "https://mail.google.com/*" ],
    "update_url": "http://clients2.google.com/service/update2/crx",
-   "version": "1.4.1"
+   "version": "1.5.0"
 }
