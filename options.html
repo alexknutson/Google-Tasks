@@ -20,14 +20,26 @@
 		<p>
 			<table>
 				<tr>
-					<td><input type="radio" name="browseraction" id="tasks_icon_default" value="icon" /></td>
+					<td><input type="radio" class="browseraction" name="browseraction" id="tasks_icon_default" value="icon" /></td>
 					<td><img src="image/icon.png" /></td>
 					<td>Default</td>
 				</tr>
 				<tr>
-					<td><input type="radio" name="browseraction" id="tasks_icon_chromifed" value="icon_chromifed" /></td>
+					<td><input type="radio" class="browseraction" name="browseraction" id="tasks_icon_chromifed" value="icon_chromifed" /></td>
 					<td><img src="image/icon_chromifed.png" /></td>
 					<td>Chromifed</td>
+				</tr>
+			</table>
+		</p>
+		<p>
+			<table>
+				<tr>
+					<td><input type="radio" class="canvastype" name="canvastype" id="tasks_canvas_ig" value="ig" /></td>
+					<td>Canvas standard</td>
+				</tr>
+				<tr>
+					<td><input type="radio" class="canvastype" name="canvastype" id="tasks_canvas_android" value="android" /></td>
+					<td>Canvas android</td>
 				</tr>
 			</table>
 		</p>
@@ -42,7 +54,7 @@
 			localStorage['gtasks_apps_enabled'] = false;
 		}
 		
-		$('input[type="radio"]').val([localStorage['gtasks_icon']]);
+		$('input.browseraction').val([localStorage['gtasks_icon']]);
 		$('#tasks_icon_default').click(function () {
 			localStorage['gtasks_icon'] = 'icon';
 			chrome.browserAction.setIcon({path:'image/'+localStorage['gtasks_icon']+'.png'});
@@ -50,6 +62,14 @@
 		$('#tasks_icon_chromifed').click(function () {
 			localStorage['gtasks_icon'] = 'icon_chromifed';
 			chrome.browserAction.setIcon({path:'image/'+localStorage['gtasks_icon']+'.png'});
+		});
+
+		$('input.canvastype').val([localStorage['gtasks_canvas']]);
+		$('#tasks_canvas_ig').click(function () {
+            localStorage['gtasks_canvas'] = 'ig';
+		});
+		$('#tasks_canvas_android').click(function () {
+			localStorage['gtasks_canvas'] = 'android';
 		});
 		
 		$('#gtasks_apps').val(localStorage['gtasks_apps']).keyup(function () {

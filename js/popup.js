@@ -1,4 +1,14 @@
 get_url = function () {
+    if (localStorage['gtasks_canvas'] == 'android') {
+        return get_url_android();
+    } else if (localStorage['gtasks_canvas'] == 'ig') {
+        return get_url_ig();
+    } else {
+        return get_url_android();
+    }
+};
+
+get_url_android = function () {
 	if (localStorage['gtasks_apps_enabled'] == 'false') {
 		return 'https://mail.google.com/tasks/android';
 	} else if (localStorage['gtasks_apps_enabled'] == 'true' && localStorage['gtasks_apps']=='') {
@@ -100,7 +110,7 @@ loadTasks = function() {
 };
 
 (function init() {
-	var version='1.5.0';
+	var version='1.5.2';
 	if (!localStorage['gtasks_apps']) {
 		localStorage['gtasks_apps'] = '';
 	}
@@ -116,42 +126,29 @@ loadTasks = function() {
 	if (!localStorage['gtasks_version'] || localStorage['gtasks_version']!=version) {
 		localStorage['gtasks_version'] = version;
 	}
-	$('#tasksiframe').remove();
-	$('#taskscontainer').append('<iframe id="tasksiframe" src="'+get_url()+'" width="475" height="600" marginwidth="0" marginheight="0" frameborder="no" scrolling="no"></iframe>');
-	var p = chrome.extension.connect({
-		name: "updatebg"
-	});
-	p.postMessage({
-		updatecs:true,
-		showbox:false,
-	});
+    
+    if (localStorage['gtasks_canvas'] == 'android') {
+        $('#taskscontainer').append('<iframe id="tasksiframe" width="475" height="600" marginwidth="0" marginheight="0" frameborder="0"></iframe>');
+    } else if (localStorage['gtasks_canvas'] == 'ig') {
+        $('#taskscontainer').append('<iframe id="tasksiframe" width="300" height="400" marginwidth="0" marginheight="0" frameborder="0" onload="this.focus();"></iframe>');
+        $('#tasksoptions').css({right:0,top:0});
+    } else {
+        $('#taskscontainer').append('<iframe id="tasksiframe" width="475" height="600" marginwidth="0" marginheight="0" frameborder="0"></iframe>');
+    }
+
+    $('#tasksiframe').attr('src',get_url());
+    
+    $('#taskspopout').click(function() {
+        window.open(get_url(),'Google Tasks','width=475');
+    });
+    $('#tasksapps').click(function () {
+        toggle_apps();
+    });
+    $('#taskscanvas').click(function () {
+        chrome.tabs.create({
+            url:get_url_canvas()
+        });
+    });
     
     loadTasks();
 })();
-
-
-$('#tasksiframe').attr('src',get_url());
-$('#taskspopout').click(function() {
-	window.open(get_url(),'Google Tasks','width=475');
-});
-$('#taskspopin').click(function() {
-	localStorage['gtasks_where'] = 'inside';
-	var p = chrome.extension.connect({
-		name: "updatebg"
-	});
-	
-	p.postMessage({
-		updatecs:true,
-		showbox:true
-	});
-
-	window.close();
-});
-$('#tasksapps').click(function () {
-	toggle_apps();
-});
-$('#taskscanvas').click(function () {
-	chrome.tabs.create({
-		url:get_url_canvas()
-	});
-});
