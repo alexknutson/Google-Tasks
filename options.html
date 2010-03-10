@@ -43,6 +43,18 @@
 				</tr>
 			</table>
 		</p>
+		<p>
+			<table>
+				<tr>
+					<td><input type="radio" class="counter" name="counter" id="tasks_counter_on" value="1" /></td>
+					<td>Show counter</td>
+				</tr>
+				<tr>
+					<td><input type="radio" class="counter" name="counter" id="tasks_counter_off" value="0" /></td>
+					<td>Hide counter</td>
+				</tr>
+			</table>
+		</p>
 		<p class="copy"><a href="https://chrome.google.com/extensions/detail/paaiiegpkmkklpihcldlnhgcinjolgkl">Support</a></p>
 	</div>
 	<script type="text/javascript" src="js/jquery.js"></script>
@@ -54,6 +66,7 @@
 			localStorage['gtasks_apps_enabled'] = false;
 		}
 		
+        // Icon
 		$('input.browseraction').val([localStorage['gtasks_icon']]);
 		$('#tasks_icon_default').click(function () {
 			localStorage['gtasks_icon'] = 'icon';
@@ -64,12 +77,22 @@
 			chrome.browserAction.setIcon({path:'image/'+localStorage['gtasks_icon']+'.png'});
 		});
 
+        // Canvas type
 		$('input.canvastype').val([localStorage['gtasks_canvas']]);
 		$('#tasks_canvas_ig').click(function () {
             localStorage['gtasks_canvas'] = 'ig';
 		});
 		$('#tasks_canvas_android').click(function () {
 			localStorage['gtasks_canvas'] = 'android';
+		});
+
+        // Counter
+		$('input.counter').val([localStorage['gtasks_counter']]);
+		$('#tasks_counter_on').click(function () {
+            localStorage['gtasks_counter'] = '1';
+		});
+		$('#tasks_counter_off').click(function () {
+			localStorage['gtasks_counter'] = '0';
 		});
 		
 		$('#gtasks_apps').val(localStorage['gtasks_apps']).keyup(function () {

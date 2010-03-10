@@ -74,7 +74,7 @@
         };
 
 		(function init() {
-			var version='1.5.2';
+			var version='1.5.3';
 			if (!localStorage['gtasks_apps']) {
 				localStorage['gtasks_apps'] = '';
 			}
@@ -90,6 +90,9 @@
 			if (!localStorage['gtasks_canvas']) {
 				localStorage['gtasks_canvas'] = 'android';
 			}
+			if (!localStorage['gtasks_counter']) {
+				localStorage['gtasks_counter'] = '1';
+			}
 			if (!localStorage['gtasks_version'] || localStorage['gtasks_version']!=version) {
 				localStorage['gtasks_version'] = version;
 				chrome.tabs.create({
@@ -97,7 +100,11 @@
 				});
 			}
 			chrome.browserAction.setIcon({path:'image/'+localStorage['gtasks_icon']+'.png'});
-			loadTasks();
+            if (localStorage['gtasks_counter'] == '1') {
+                loadTasks();
+            } else {
+                chrome.browserAction.setBadgeText({text:''});
+            }
 		})();
 	</script>
 </head>

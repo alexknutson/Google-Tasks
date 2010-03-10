@@ -4,5 +4,22 @@ Functionality:
  - Google apps gesture
  - Easy switch google apps / normal account
  - Open tasks in new window
- - Pop tasks in windows
  - Browser action configuration
+ - Open canvas gestion
+
+v1.5.0 changelog
+ - Remove popin option (compatibility with xml builded pages broken)
+ - Switch to android tasks view (alert crash on new list creation)
+ - Tasks coutner
+ - Change name for Google guidelines
+
+v1.5.1 changelog
+ - Add scroll for long android tasks list
+ - Still wishing an answer for standard mode crash
+
+v1.5.2 changelog
+ - Add choice android or standard window
+
+v1.5.3 changelog
+ - Add choice to show counter or not
+ - Bug fix (scrollbar) in android mode

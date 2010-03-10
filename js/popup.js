@@ -110,7 +110,7 @@ loadTasks = function() {
 };
 
 (function init() {
-	var version='1.5.2';
+	var version='1.5.3';
 	if (!localStorage['gtasks_apps']) {
 		localStorage['gtasks_apps'] = '';
 	}
@@ -126,6 +126,9 @@ loadTasks = function() {
 	if (!localStorage['gtasks_version'] || localStorage['gtasks_version']!=version) {
 		localStorage['gtasks_version'] = version;
 	}
+    if (!localStorage['gtasks_counter']) {
+        localStorage['gtasks_counter'] = '1';
+    }
     
     if (localStorage['gtasks_canvas'] == 'android') {
         $('#taskscontainer').append('<iframe id="tasksiframe" width="475" height="600" marginwidth="0" marginheight="0" frameborder="0"></iframe>');
@@ -149,6 +152,10 @@ loadTasks = function() {
             url:get_url_canvas()
         });
     });
-    
-    loadTasks();
+
+    if (localStorage['gtasks_counter'] == '1') {
+        loadTasks();
+    } else {
+        chrome.browserAction.setBadgeText({text:''});
+    }
 })();
