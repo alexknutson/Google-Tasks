@@ -53,19 +53,17 @@
 					<td><input type="radio" class="counter" name="counter" id="tasks_counter_off" value="0" /></td>
 					<td>Hide counter</td>
 				</tr>
+				<tr>
+					<td><input type="checkbox" class="zerocounter" name="zerocounter" id="tasks_zerocounter" /></td>
+					<td>Hide counter when zero</td>
+				</tr>
 			</table>
 		</p>
 		<p class="copy"><a href="https://chrome.google.com/extensions/detail/paaiiegpkmkklpihcldlnhgcinjolgkl">Support</a></p>
 	</div>
 	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript">	
-		if (!localStorage['gtasks_apps']) {
-			localStorage['gtasks_apps'] = '';
-		}
-		if (!localStorage['gtasks_apps_enabled']) {
-			localStorage['gtasks_apps_enabled'] = false;
-		}
-		
+	<script type="text/javascript" src="js/global.js"></script>
+	<script type="text/javascript">
         // Icon
 		$('input.browseraction').val([localStorage['gtasks_icon']]);
 		$('#tasks_icon_default').click(function () {
@@ -94,6 +92,21 @@
 		$('#tasks_counter_off').click(function () {
 			localStorage['gtasks_counter'] = '0';
 		});
+        
+        // zero counter
+        if (localStorage['gtasks_zerocounter'] == 1) {
+            $('#tasks_zerocounter').attr('checked', true);
+        } else {
+            $('#tasks_zerocounter').attr('checked', false);
+        }
+        $('#tasks_zerocounter').click(function () {
+            if ($('#tasks_zerocounter').attr('checked')) {
+                localStorage['gtasks_zerocounter'] = 1;
+            } else {
+                localStorage['gtasks_zerocounter'] = 0;
+            }
+            loadTasks();
+        });
 		
 		$('#gtasks_apps').val(localStorage['gtasks_apps']).keyup(function () {
 			localStorage['gtasks_apps'] = $('#gtasks_apps').val();
