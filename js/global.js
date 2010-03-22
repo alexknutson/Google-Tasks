@@ -100,17 +100,18 @@ loadTasks = function() {
             var ntoday = parseInt(jsdate2string(new Date()));
             atasks = new Array();
             var myjson = JSON.parse(jsontxt);
-            var mytasks = myjson.t.tasks;  
-            for(var i in mytasks) {
-                if (i.name) {
+            var mytasks = myjson.t.tasks;
+            for(var item in mytasks) {
+                item = mytasks[item];
+                if (item.name != '') {
                     var otask = new Object();
-                    otask.sname = mytasks[i].name;
+                    otask.sname = item.name;
                     otask.surl = '';
-                    if(typeof(mytasks[i].resource_link)=="object") {
-                        otask.surl = mytasks[i].resource_link[0].uri;
+                    if(typeof(item.resource_link)=="object") {
+                        otask.surl = item.resource_link[0].uri;
                     }
-                    if(typeof(mytasks[i].task_date)=="string"){
-                        otask.sdate = mytasks[i].task_date;
+                    if(typeof(item.task_date)=="string"){
+                        otask.sdate = item.task_date;
                         var ntaskdate = parseInt(''+otask.sdate);
                         if(ntaskdate<ntoday) ndelayed++;
                         if(ntaskdate==ntoday) nfortoday++;
