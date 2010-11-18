@@ -1,8 +1,8 @@
 (function init() {
     
     if (localStorage['gtasks_canvas'] == 'ig') {
-        $('#taskscontainer').attr('height',400);
-        $('#taskscontainer').attr('width',300);
+        $('#taskscontainer, #tasksiframe').attr('height',localStorage['gtasks_height']);
+        $('#taskscontainer, #tasksiframe').attr('width',localStorage['gtasks_width']);
         $('#tasksoptions').css({right:0,top:0});
     }
 

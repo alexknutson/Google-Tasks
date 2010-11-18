@@ -4,7 +4,7 @@
 	<style>
 		body { font-family:Arial;font-size:12px;background:#000;color:#ccc; }
 		#options { width:500px;padding:20px;margin:auto;background:#222;-webkit-border-radius:5px;border:2px solid #444; }
-		label { margin:0 10px 0 0; }
+		label { margin:0 10px 0 0; display:inline-block; width:260px; text-align:right;}
 		input[type="text"] { width:200px;background:#111;border:2px solid #333;-webkit-border-radius:5px;color:#ccc;padding:5px 10px 5px 10px; }
 		h1 { text-align:center;background:#277cc1;-webkit-border-radius:5px;padding:3px;color:#fff;border:solid #348bca;border-width:2px 2px 0 0; }
 		a { color:#fe7f00;text-decoration:none; }
@@ -59,6 +59,8 @@
 				</tr>
 			</table>
 		</p>
+		<p><label for="gtasks_height">Popup height in standard mode</label><input type="text" id="gtasks_height" /></p>
+		<p><label for="gtasks_width">Popup width in standard mode</label><input type="text" id="gtasks_width" /></p>
 		<p class="copy"><a href="https://chrome.google.com/extensions/detail/paaiiegpkmkklpihcldlnhgcinjolgkl">Support</a></p>
 	</div>
 	<script type="text/javascript" src="js/jquery.js"></script>
@@ -107,7 +109,14 @@
             }
             loadTasks();
         });
-		
+        
+        $('#gtasks_height').val(localStorage['gtasks_height']).keyup(function () {
+            localStorage['gtasks_height'] = $('#gtasks_height').val();
+        });
+        $('#gtasks_width').val(localStorage['gtasks_width']).keyup(function () {
+            localStorage['gtasks_width'] = $('#gtasks_width').val();
+        });
+
 		$('#gtasks_apps').val(localStorage['gtasks_apps']).keyup(function () {
 			localStorage['gtasks_apps'] = $('#gtasks_apps').val();
 		});

@@ -52,13 +52,19 @@ global_init = function () {
         localStorage['gtasks_icon'] = 'icon';
     }
     if (!localStorage['gtasks_canvas']) {
-        localStorage['gtasks_canvas'] = 'android';
+        localStorage['gtasks_canvas'] = 'ig';
     }
     if (!localStorage['gtasks_counter']) {
         localStorage['gtasks_counter'] = '1';
     }
     if (!localStorage['gtasks_zerocounter']) {
         localStorage['gtasks_zerocounter'] = '1';
+    }
+    if (!localStorage['gtasks_height']) {
+        localStorage['gtasks_height'] = '400';
+    }
+    if (!localStorage['gtasks_width']) {
+        localStorage['gtasks_width'] = '300';
     }
 }
 
