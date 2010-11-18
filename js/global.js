@@ -38,7 +38,7 @@ get_url_ig = function () {
 
 
 global_init = function () {
-    version='1.5.4';
+    version='1.5.5';
     if (!localStorage['gtasks_apps']) {
         localStorage['gtasks_apps'] = '';
     }
